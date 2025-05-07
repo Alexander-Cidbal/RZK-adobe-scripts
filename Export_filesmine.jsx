@@ -18,6 +18,13 @@ function main() {
     pathGroup.orientation = 'column';
     pathGroup.alignChildren = ['left', 'center'];
 
+
+    var titleText = pathGroup.add('statictext', undefined, 'Exportador de archivos PSD a JPG, enteros y por mitades. Script por RZK');
+titleText.graphics.font = ScriptUI.newFont("Roboto", "BOLD", 16); // Cambia la fuente a Arial, negrita, tamaño 16
+//titleText.graphics.foregroundColor = titleText.graphics.newPen(ScriptUI.PenType.SOLID_COLOR, [0, 0, 1], 1); // Azul
+    pathGroup.add('statictext', undefined, 'Selecciona ambas carpetas'); // Título del script
+    pathGroup.add('statictext', undefined, '');
+
     // Etiqueta y texto para la ruta de archivos de entrada
     pathGroup.add('statictext', undefined, 'Carpeta de Archivos:');
     var inputPathText = pathGroup.add('statictext', [0, 0, 350, 20], 'No seleccionada', { truncate: 'middle' }); // Texto estático para mostrar la ruta
@@ -69,7 +76,7 @@ function main() {
     // Acción al hacer clic en "Aceptar" (se ejecuta si show() devuelve 1)
     btnAccept.onClick = function() {
         if (inputFolderPath === null || exportFolderPath === null) {
-            alert('Por favor, selecciona ambas rutas antes de continuar.');
+            alert('Bro, por favor, selecciona ambas rutas antes de continuar.');
             // No cerramos la ventana si faltan rutas
         } else {
             dialog.close(1); // Cierra la ventana y devuelve 1 (OK)
@@ -94,17 +101,35 @@ function main() {
         var originalRulerUnits = preferences.rulerUnits;
         preferences.rulerUnits = Units.PIXELS; // Usar píxeles para cálculos precisos
 
+        // --- Crear subcarpetas "Join" y "Divided" ---
+        var joinFolderPath = new Folder(exportFolderPath.fsName + "/Join");
+        var dividedFolderPath = new Folder(exportFolderPath.fsName + "/Divided");
+
+        if (!joinFolderPath.exists) {
+            if (!joinFolderPath.create()) {
+                alert("Error: No se pudo crear la carpeta 'Join' en:\n" + joinFolderPath.fsName + "\nEl script se detendrá.");
+                preferences.rulerUnits = originalRulerUnits; // Restaurar unidades antes de salir
+                return; // Detener el script si no se puede crear la carpeta
+            }
+        }
+        if (!dividedFolderPath.exists) {
+            if (!dividedFolderPath.create()) {
+                alert("Error: No se pudo crear la carpeta 'Divided' en:\n" + dividedFolderPath.fsName + "\nEl script se detendrá.");
+                preferences.rulerUnits = originalRulerUnits; // Restaurar unidades antes de salir
+                return; // Detener el script si no se puede crear la carpeta
+            }
+        }
+
         // --- Aquí iría el código principal de tu script ---
         // Utiliza las variables inputFolderPath y exportFolderPath
-        alert('Script iniciado.\nCarpeta de entrada: ' + inputFolderPath.fsName + '\nCarpeta de exportación: ' + exportFolderPath.fsName);
-        
+        alert('Script iniciado.\nCarpeta de entrada: ' + inputFolderPath.fsName + '\nCarpeta de exportación principal: ' + exportFolderPath.fsName + "\nLas imágenes completas se guardarán en 'Join' y las divididas en 'Divided'.");
         // --- Inicio del procesamiento de archivos ---
         
         // 1. Buscar archivos .psd en la carpeta de entrada
         var fileList = inputFolderPath.getFiles(/\.(psd)$/i); // Obtener solo archivos PSD (case-insensitive)
         
         if (fileList.length > 0) {
-            alert('Se encontraron ' + fileList.length + ' archivos PSD. Iniciando exportación...');
+            alert('Bro, se encontraron ' + fileList.length + ' archivos PSD. Iniciando exportación...');
             
             for (var i = 0; i < fileList.length; i++) {
                 var currentFile = fileList[i];
@@ -145,7 +170,7 @@ function main() {
                         var saveOptions = new JPEGSaveOptions();
                         saveOptions.quality = 12; // Máxima calidad
                         
-                        var saveFileFull = new File(exportFolderPath.fsName + '/' + baseName + '.jpg');
+                        var saveFileFull = new File(joinFolderPath.fsName + '/' + baseName + '.jpg');
                         doc.saveAs(saveFileFull, saveOptions, true, Extension.LOWERCASE); // true = guardar como copia
 
                         // --- 4. Recortar y Exportar Mitad Izquierda ---
@@ -153,7 +178,7 @@ function main() {
                         var leftBounds = [0, 0, originalWidth / 2, originalHeight];
                         doc.crop(leftBounds);
                         
-                        var saveFileLeft = new File(exportFolderPath.fsName + '/' + baseName + '_1.jpg');
+                        var saveFileLeft = new File(dividedFolderPath.fsName + '/' + baseName + '_1.jpg');
                         // Reutilizamos saveOptions (máxima calidad)
                         doc.saveAs(saveFileLeft, saveOptions, true, Extension.LOWERCASE);
                         
@@ -164,7 +189,7 @@ function main() {
                         var rightBounds = [originalWidth / 2, 0, originalWidth, originalHeight];
                         doc.crop(rightBounds);
 
-                        var saveFileRight = new File(exportFolderPath.fsName + '/' + baseName + '_2.jpg');
+                        var saveFileRight = new File(dividedFolderPath.fsName + '/' + baseName + '_2.jpg');
                         // Reutilizamos saveOptions (máxima calidad)
                         doc.saveAs(saveFileRight, saveOptions, true, Extension.LOWERCASE);
 
@@ -179,7 +204,7 @@ function main() {
                     }
                 }
             }
-            alert('Proceso completado para ' + fileList.length + ' archivos.');
+            alert('Proceso completado para ' + fileList.length + ' archivos. :V XD');
         } else {
             alert('No se encontraron archivos .psd en la carpeta de entrada:\n' + inputFolderPath.fsName);
         }
