@@ -19,11 +19,14 @@ function main() {
     pathGroup.alignChildren = ['left', 'center'];
 
 
-    var titleText = pathGroup.add('statictext', undefined, 'Exportador de archivos PSD a JPG, enteros y por mitades. Script por RZK');
-titleText.graphics.font = ScriptUI.newFont("Roboto", "BOLD", 16); // Cambia la fuente a Arial, negrita, tamaño 16
-//titleText.graphics.foregroundColor = titleText.graphics.newPen(ScriptUI.PenType.SOLID_COLOR, [0, 0, 1], 1); // Azul
-    pathGroup.add('statictext', undefined, 'Selecciona ambas carpetas'); // Título del script
-    pathGroup.add('statictext', undefined, '');
+    var titleText = pathGroup.add('statictext', undefined, 'Exportador de archivos PSD a JPG, enteros y por mitades. Script por .:_RZK_:.');
+    titleText.graphics.font = ScriptUI.newFont("", "BOLD", 16); // Cambia la fuente a Arial, negrita, tamaño 16
+    
+    pathGroup.add('statictext', undefined, 'Selecciona una ruta con los archivos .PSD a procesar, luego la carpeta donde se exportarán y oprime ACEPTAR, bro'); // Título del script
+    //pathGroup.add('statictext', undefined, '');
+    
+    
+    
 
     // Etiqueta y texto para la ruta de archivos de entrada
     pathGroup.add('statictext', undefined, 'Carpeta de Archivos:');
@@ -204,7 +207,7 @@ titleText.graphics.font = ScriptUI.newFont("Roboto", "BOLD", 16); // Cambia la f
                     }
                 }
             }
-            alert('Proceso completado para ' + fileList.length + ' archivos. :V XD');
+            alert('Proceso completado para ' + fileList.length + ' archivos. :V XD sCRIPT POR .:_rzk:._');
         } else {
             alert('No se encontraron archivos .psd en la carpeta de entrada:\n' + inputFolderPath.fsName);
         }
@@ -213,7 +216,7 @@ titleText.graphics.font = ScriptUI.newFont("Roboto", "BOLD", 16); // Cambia la f
         preferences.rulerUnits = originalRulerUnits;
 
     } else {
-        alert('Script cancelado por el usuario.');
+        alert(':´v Script cancelado por el usuario.');
     }
 }
 
