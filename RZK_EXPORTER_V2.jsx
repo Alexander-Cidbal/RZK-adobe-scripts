@@ -13,7 +13,7 @@ function main() {
     dlg.graphics.backgroundColor = dlg.graphics.newBrush(dlg.graphics.BrushType.SOLID_COLOR, [0.15,0.15,0.15]);
 
     // --- Texto superior ---
-    var title = dlg.add('statictext', undefined, '.:_RZK EXPORTER_1_:V_:.');
+    var title = dlg.add('statictext', undefined, '.:_RZK EXPORTER_2_:V_:.');
     title.graphics.font = ScriptUI.newFont("Arial", "BOLD", 28);
     title.alignment = 'center';
     title.margins = [10, 10, 10, 10];
