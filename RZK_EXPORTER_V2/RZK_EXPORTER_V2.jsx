@@ -12,25 +12,59 @@ function main() {
     dlg.alignChildren = 'fill';
     dlg.graphics.backgroundColor = dlg.graphics.newBrush(dlg.graphics.BrushType.SOLID_COLOR, [0.12,0.12,0.12]);
 
-    // --- Texto superior ---
-    var title = dlg.add('statictext', undefined, '.:_RZK EXPORTER_2.0_:.');
-    title.graphics.font = ScriptUI.newFont("Arial", "BOLD", 28);
-    title.alignment = 'center';
-    title.margins = [10, 10, 10, 10];
-    //title.graphics.foregroundColor = title.graphics.newPen(ScriptUI.PenType.SOLID_COLOR, [1,1,1], 1);
-    title.graphics.foregroundColor = title.graphics.newPen (title.graphics.PenType.SOLID_COLOR, [0.7, 1, 0.3], 150);
+    // --- Barra de Título (Contenedor para el título principal y el icono de GitHub) ---
+    var titleBarGroup = dlg.add('group');
+    titleBarGroup.orientation = 'stack'; // Cambiado a 'stack' para superponer y alinear independientemente
+    titleBarGroup.alignment = 'fill'; // La barra de título ocupa todo el ancho
+    // titleBarGroup.spacing no aplica directamente en 'stack' como en 'row' o 'column'
+    titleBarGroup.margins = [10, 10, 5, 10]; // Arriba:10, Izquierda:10, Abajo:5, Derecha:10
 
-    var title = dlg.add('statictext', undefined, 'Exportador de archivos PSD a JPG, enteros y por mitades.');
-    title.graphics.font = ScriptUI.newFont("Arial", "REGULAR", 12);
-    title.alignment = 'center';
-    title.margins = [10, 10, 10, 50];
+    // --- Texto del Título Principal ---
+    var mainTitleText = titleBarGroup.add('statictext', undefined, '.:_RZK EXPORTER_2.0_:.');
+    mainTitleText.graphics.font = ScriptUI.newFont("Arial", "BOLD", 28);
+    mainTitleText.alignment = ['center', 'center']; // Centra el texto horizontal y verticalmente en el 'stack'
+    mainTitleText.graphics.foregroundColor = mainTitleText.graphics.newPen (mainTitleText.graphics.PenType.SOLID_COLOR, [0.7, 1, 0.3], 1);
+
+    // --- Botón de Icono GitHub ---
+    var githubIconFileName = "github_logo.png"; 
+    var githubIconPath = new File($.fileName).parent.fsName + "/" + githubIconFileName;
+    var githubIconFile = new File(githubIconPath);
+    
+    if (githubIconFile.exists) {
+        var githubButton = titleBarGroup.add('iconbutton', undefined, githubIconFile, {style: 'toolbutton'});
+        githubButton.helpTip = "Visitar Repositorio en GitHub";
+        githubButton.preferredSize = [28, 28]; // Botón cuadrado y un poco más pequeño
+        githubButton.alignment = ['right', 'center']; // Alinear a la derecha y centrado verticalmente en el 'stack'
+        githubButton.onClick = function() {
+            var targetURL = "https://github.com/Alexander-Cidbal/RZK-adobe-scripts";
+            try {
+                if ($.os.indexOf("Windows") !== -1) {
+                    app.system('cmd /c start "" "' + targetURL + '"');
+                } else { // macOS u otros Unix-like
+                    app.system('open "' + targetURL + '"');
+                }
+            } catch (e) {
+                alert("No se pudo abrir el navegador web.\nURL: " + targetURL + "\nError: " + e.message);
+            }
+        };
+    } else {
+        // Opcional: Si el icono no se encuentra, puedes añadir un botón de texto o no hacer nada.
+        // titleBarGroup.add('statictext', undefined, '[GH]'); // Placeholder si el icono no existe
+    }
+
+    // --- Subtítulo ---
+    var subTitleText = dlg.add('statictext', undefined, 'Exportador de archivos PSD a JPG, enteros y por mitades.');
+    subTitleText.graphics.font = ScriptUI.newFont("Arial", "REGULAR", 12);
+    subTitleText.alignment = 'center'; // Centrado horizontalmente en el diálogo
+    subTitleText.margins = [5, 10, 10, 50]; // Arriba:5 (desde titleBarGroup), Izquierda:10, Abajo:10, Derecha:50
+    subTitleText.graphics.foregroundColor = subTitleText.graphics.newPen (subTitleText.graphics.PenType.SOLID_COLOR, [0.84, 1, 0.63], 1);
 
 // --- Línea divisoria 0 ---
     var sep0 = dlg.add('panel', undefined, undefined, {borderStyle:'black'});
     sep0.alignment = 'fill';
     sep0.minimumSize.height = 3;
     //sep0.graphics.backgroundColor = sep1.graphics.newBrush(ScriptUI.BrushType.SOLID_COLOR, [0,0,0]);
-
+    sep0.graphics.backgroundColor = sep0.graphics.newBrush(sep0.graphics.BrushType.SOLID_COLOR, [0,0,0]);
 
     // --- Bloque 1 ---
     var block1 = dlg.add('group');
@@ -43,7 +77,7 @@ function main() {
     num1.graphics.font = ScriptUI.newFont("Arial", "BOLD", 48);
     //num1.graphics.foregroundColor = num1.graphics.newPen(ScriptUI.PenType.SOLID_COLOR, [1,1,1], 1);
     num1.size = [40, 50];
-    num1.graphics.foregroundColor = num1.graphics.newPen (num1.graphics.PenType.SOLID_COLOR, [0.4, 0.8, 0.1], 6);
+    num1.graphics.foregroundColor = num1.graphics.newPen (num1.graphics.PenType.SOLID_COLOR, [0.55, 0.79, 0.24], 6);
 
 
     var block1content = block1.add('group');
@@ -51,7 +85,10 @@ function main() {
     block1content.alignChildren = 'left';
     block1content.margins = [10,0,0,0];
 
-    block1content.add('statictext', undefined, 'Seleccionar carpeta con las imágenes a procesar');
+    var labelInputFolder = block1content.add('statictext', undefined, 'Seleccionar carpeta con las imágenes a procesar');
+    // Aplicando color blanco al texto
+    labelInputFolder.graphics.foregroundColor = labelInputFolder.graphics.newPen(labelInputFolder.graphics.PenType.SOLID_COLOR, [1, 1, 1], 1);
+    labelInputFolder.graphics.font = ScriptUI.newFont("Arial", "REGULAR", 12); 
     var row1 = block1content.add('group');
     row1.orientation = 'row';
     row1.alignChildren = ['left', 'center'];
@@ -76,6 +113,7 @@ function main() {
     sep1.alignment = 'fill';
     sep1.minimumSize.height = 3;
     //sep1.graphics.backgroundColor = sep1.graphics.newBrush(ScriptUI.BrushType.SOLID_COLOR, [0,0,0]);
+    sep1.graphics.backgroundColor = sep1.graphics.newBrush(sep1.graphics.BrushType.SOLID_COLOR, [0,0,0]);
 
     // --- Bloque 2 ---
     var block2 = dlg.add('group');
@@ -88,7 +126,7 @@ function main() {
     num2.graphics.font = ScriptUI.newFont("Arial", "BOLD", 48);
     //num2.graphics.foregroundColor = num2.graphics.newPen(ScriptUI.PenType.SOLID_COLOR, [1,1,1], 1);
     num2.size = [40, 50];
-    num2.graphics.foregroundColor = num2.graphics.newPen (num2.graphics.PenType.SOLID_COLOR, [0.4, 0.8, 0.1], 6);
+    num2.graphics.foregroundColor = num2.graphics.newPen (num2.graphics.PenType.SOLID_COLOR, [0.44, 0.63, 0.19], 6);
 
 
     var block2content = block2.add('group');
@@ -96,7 +134,10 @@ function main() {
     block2content.alignChildren = 'left';
     block2content.margins = [10,0,0,0];
 
-    block2content.add('statictext', undefined, 'Seleccionar carpeta para guardar las imágenes procesadas');
+    var labelOutputFolder = block2content.add('statictext', undefined, 'Seleccionar carpeta para guardar las imágenes procesadas');
+    // Aplicando color blanco al texto
+    labelOutputFolder.graphics.foregroundColor = labelOutputFolder.graphics.newPen(labelOutputFolder.graphics.PenType.SOLID_COLOR, [1, 1, 1], 1);
+    labelOutputFolder.graphics.font = ScriptUI.newFont("Arial", "REGULAR", 12); 
     var row2 = block2content.add('group');
     row2.orientation = 'row';
     row2.alignChildren = ['left', 'center'];
@@ -120,6 +161,7 @@ function main() {
     sep2.alignment = 'fill';
     sep2.minimumSize.height = 3;
     //sep2.graphics.foregroundColor = sep2.graphics.newBrush(sep3.graphics.SOLID_COLOR, [0,0,0]);
+    sep2.graphics.backgroundColor = sep2.graphics.newBrush(sep2.graphics.BrushType.SOLID_COLOR, [0,0,0]);
 
     // --- Bloque 3 ---
     var block3 = dlg.add('group');
@@ -132,14 +174,17 @@ function main() {
     num3.graphics.font = ScriptUI.newFont("Arial", "BOLD", 48);
     //num3.graphics.foregroundColor = num3.graphics.newPen(ScriptUI.PenType.SOLID_COLOR, [1,1,1], 1);
     num3.size = [40, 50];
-    num3.graphics.foregroundColor = num3.graphics.newPen (num3.graphics.PenType.SOLID_COLOR, [0.4, 0.8, 0.1], 6);
+    num3.graphics.foregroundColor = num3.graphics.newPen (num3.graphics.PenType.SOLID_COLOR, [0.33, 0.48, 0.15], 6);
 
     var block3content = block3.add('group');
     block3content.orientation = 'column';
     block3content.alignChildren = 'left';
     block3content.margins = [10,0,0,0];
 
-    block3content.add('statictext', undefined, 'Ajustes de exportación');
+    var labelExportSettings = block3content.add('statictext', undefined, 'Ajustes de exportación');
+    // Aplicando color blanco al texto
+    labelExportSettings.graphics.foregroundColor = labelExportSettings.graphics.newPen(labelExportSettings.graphics.PenType.SOLID_COLOR, [1, 1, 1], 1);
+    labelExportSettings.graphics.font = ScriptUI.newFont("Arial", "REGULAR", 12);
 
     // Aquí los radio buttons y el campo calidad están alineados igual que en los otros bloques
     var radio1 = block3content.add('radiobutton', undefined, 'Exportar imagen completa');
@@ -159,6 +204,7 @@ function main() {
     sep3.alignment = 'fill';
     sep3.minimumSize.height = 3;
     //sep3.graphics.backgroundColor = sep3.graphics.newBrush(ScriptUI.BrushType.SOLID_COLOR, [0,0,0]);
+    sep3.graphics.backgroundColor = sep3.graphics.newBrush(sep3.graphics.BrushType.SOLID_COLOR, [0,0,0]);
 
     // --- Botones inferiores ---
     var btns = dlg.add('group');
@@ -168,31 +214,17 @@ function main() {
 
     var btnRun = btns.add('button', undefined, 'Ejecutar');
     btnRun.preferredSize.width = 100;
+    // Ejemplo de estilización (el color de fondo puede no ser respetado en todos los sistemas/temas):
+    btnRun.graphics.foregroundColor = btnRun.graphics.newPen(btnRun.graphics.PenType.SOLID_COLOR, [0.7, 1, 0.3], 1); // Texto oscuro
     var btnCancel = btns.add('button', undefined, 'Cancelar');
     btnCancel.preferredSize.width = 100;
     var btnInfo = btns.add('button', undefined, 'Info');
-    btnInfo.preferredSize.width = 80; // Ajustar ancho para dar espacio al nuevo botón
-    var btnWeb = btns.add('button', undefined, '🌐 Web'); // O puedes usar "Web" o "Google"
-    btnWeb.preferredSize.width = 80; // Ajustar ancho
+    btnCancel.graphics.foregroundColor = btnCancel.graphics.newPen(btnCancel.graphics.PenType.SOLID_COLOR, [1, 0.26, 0.26], 1);
+    // Aplicando color amarillo pálido (F8FFB3) al texto del botón Info
+    btnInfo.graphics.foregroundColor = btnInfo.graphics.newPen(btnInfo.graphics.PenType.SOLID_COLOR, [0.973, 1.0, 0.702], 1);
+    btnInfo.preferredSize.width = 100; // Ajustar ancho ya que no hay botón Web
 
     // Eventos básicos de cierre
-    btnWeb.onClick = function() {
-        var targetURL = "https://github.com/Alexander-Cidbal/RZK-adobe-scripts";
-        try {
-            if ($.os.indexOf("Windows") !== -1) {
-                // En Windows, usar cmd.exe con el comando 'start' es más fiable.
-                // El comando 'start "" "URL"' asegura que la URL se maneje correctamente.
-                var command = 'cmd /c start "" "' + targetURL + '"';
-                app.system(command);
-            } else {
-                // En macOS y otros, File.execute() suele funcionar bien para URLs.
-                var urlFile = new File(targetURL);
-                urlFile.execute();
-            }
-        } catch (e) {
-            alert("No se pudo abrir el navegador web.\nURL: " + targetURL + "\nError: " + e.message + "\nOS: " + $.os);
-        }
-    };
     btnCancel.onClick = function() { dlg.close(); };
     btnInfo.onClick = function() {
         alert('RZK Exporter v2.0\nScript por .:_RZK_:.\n\nEste script exporta archivos PSD a JPG.\n' +
