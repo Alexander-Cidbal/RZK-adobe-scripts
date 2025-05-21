@@ -10,21 +10,26 @@ function main() {
     dlg.orientation = 'column';
     dlg.preferredSize.width = 500; // Aumentar ancho para rutas largas
     dlg.alignChildren = 'fill';
-    dlg.graphics.backgroundColor = dlg.graphics.newBrush(dlg.graphics.BrushType.SOLID_COLOR, [0.15,0.15,0.15]);
+    dlg.graphics.backgroundColor = dlg.graphics.newBrush(dlg.graphics.BrushType.SOLID_COLOR, [0.12,0.12,0.12]);
 
     // --- Texto superior ---
-    var title = dlg.add('statictext', undefined, '.:_RZK EXPORTER_2_:V_:.');
+    var title = dlg.add('statictext', undefined, '.:_RZK EXPORTER_2.0_:.');
     title.graphics.font = ScriptUI.newFont("Arial", "BOLD", 28);
     title.alignment = 'center';
     title.margins = [10, 10, 10, 10];
     //title.graphics.foregroundColor = title.graphics.newPen(ScriptUI.PenType.SOLID_COLOR, [1,1,1], 1);
-
+    title.graphics.foregroundColor = title.graphics.newPen (title.graphics.PenType.SOLID_COLOR, [0.7, 1, 0.3], 150);
 
     var title = dlg.add('statictext', undefined, 'Exportador de archivos PSD a JPG, enteros y por mitades.');
     title.graphics.font = ScriptUI.newFont("Arial", "REGULAR", 12);
     title.alignment = 'center';
     title.margins = [10, 10, 10, 50];
 
+// --- Línea divisoria 0 ---
+    var sep0 = dlg.add('panel', undefined, undefined, {borderStyle:'black'});
+    sep0.alignment = 'fill';
+    sep0.minimumSize.height = 3;
+    //sep0.graphics.backgroundColor = sep1.graphics.newBrush(ScriptUI.BrushType.SOLID_COLOR, [0,0,0]);
 
 
     // --- Bloque 1 ---
@@ -38,6 +43,8 @@ function main() {
     num1.graphics.font = ScriptUI.newFont("Arial", "BOLD", 48);
     //num1.graphics.foregroundColor = num1.graphics.newPen(ScriptUI.PenType.SOLID_COLOR, [1,1,1], 1);
     num1.size = [40, 50];
+    num1.graphics.foregroundColor = num1.graphics.newPen (num1.graphics.PenType.SOLID_COLOR, [0.4, 0.8, 0.1], 6);
+
 
     var block1content = block1.add('group');
     block1content.orientation = 'column';
@@ -49,6 +56,7 @@ function main() {
     row1.orientation = 'row';
     row1.alignChildren = ['left', 'center'];
     var btnInput = row1.add('button', undefined, 'Seleccionar carpeta');
+    
     var inputLabel = row1.add('statictext', undefined, '   Ninguna carpeta seleccionada', {truncate: 'middle'});
     inputLabel.preferredSize.width = 300;
 
@@ -80,6 +88,8 @@ function main() {
     num2.graphics.font = ScriptUI.newFont("Arial", "BOLD", 48);
     //num2.graphics.foregroundColor = num2.graphics.newPen(ScriptUI.PenType.SOLID_COLOR, [1,1,1], 1);
     num2.size = [40, 50];
+    num2.graphics.foregroundColor = num2.graphics.newPen (num2.graphics.PenType.SOLID_COLOR, [0.4, 0.8, 0.1], 6);
+
 
     var block2content = block2.add('group');
     block2content.orientation = 'column';
@@ -109,7 +119,7 @@ function main() {
     var sep2 = dlg.add('panel', undefined, undefined, {borderStyle:'black'});
     sep2.alignment = 'fill';
     sep2.minimumSize.height = 3;
-    //sep2.graphics.backgroundColor = sep2.graphics.newBrush(ScriptUI.BrushType.SOLID_COLOR, [0,0,0]);
+    //sep2.graphics.foregroundColor = sep2.graphics.newBrush(sep3.graphics.SOLID_COLOR, [0,0,0]);
 
     // --- Bloque 3 ---
     var block3 = dlg.add('group');
@@ -122,6 +132,7 @@ function main() {
     num3.graphics.font = ScriptUI.newFont("Arial", "BOLD", 48);
     //num3.graphics.foregroundColor = num3.graphics.newPen(ScriptUI.PenType.SOLID_COLOR, [1,1,1], 1);
     num3.size = [40, 50];
+    num3.graphics.foregroundColor = num3.graphics.newPen (num3.graphics.PenType.SOLID_COLOR, [0.4, 0.8, 0.1], 6);
 
     var block3content = block3.add('group');
     block3content.orientation = 'column';
