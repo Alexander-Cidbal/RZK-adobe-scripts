@@ -20,8 +20,8 @@ function main() {
     titleBarGroup.margins = [10, 10, 5, 10]; // Arriba:10, Izquierda:10, Abajo:5, Derecha:10
 
     // --- Texto del Título Principal ---
-    var mainTitleText = titleBarGroup.add('statictext', undefined, '.:_RZK EXPORTER_2.0_:.');
-    mainTitleText.graphics.font = ScriptUI.newFont("Arial", "BOLD", 28);
+    var mainTitleText = titleBarGroup.add('statictext', undefined, '.:_RZK_EXPORTER_M_2.0_:.');
+    mainTitleText.graphics.font = ScriptUI.newFont("Agency FB", "BOLD", 48);
     mainTitleText.alignment = ['center', 'center']; // Centra el texto horizontal y verticalmente en el 'stack'
     mainTitleText.graphics.foregroundColor = mainTitleText.graphics.newPen (mainTitleText.graphics.PenType.SOLID_COLOR, [0.7, 1, 0.3], 1);
 
@@ -188,9 +188,15 @@ function main() {
 
     // Aquí los radio buttons y el campo calidad están alineados igual que en los otros bloques
     var radio1 = block3content.add('radiobutton', undefined, 'Exportar imagen completa');
+    // Intentar cambiar el color del texto del radio button (puede no funcionar en todos los sistemas/versiones)
+    radio1.graphics.foregroundColor = radio1.graphics.newPen(radio1.graphics.PenType.SOLID_COLOR, [0.9, 0.9, 0.9], 1);
+
     var radio2 = block3content.add('radiobutton', undefined, 'Exportar mitades');
+    radio2.graphics.foregroundColor = radio2.graphics.newPen(radio2.graphics.PenType.SOLID_COLOR, [0.9, 0.9, 0.9], 1);
+
     var radio3 = block3content.add('radiobutton', undefined, 'Exportar ambas');
     radio3.value = true;
+    radio3.graphics.foregroundColor = radio3.graphics.newPen(radio3.graphics.PenType.SOLID_COLOR, [0.9, 0.9, 0.9], 1);
 
     var qualityGroup = block3content.add('group');
     qualityGroup.orientation = 'row';
