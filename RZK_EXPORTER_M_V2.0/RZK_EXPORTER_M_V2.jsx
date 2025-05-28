@@ -6,7 +6,7 @@ function main() {
     var exportFolderPath = null;
 
     // Ventana principal
-    var dlg = new Window('dialog', 'RZK Exporter v2.0');
+    var dlg = new Window('dialog', 'RZK Exporter M v2.0');
     dlg.orientation = 'column';
     dlg.preferredSize.width = 500; // Aumentar ancho para rutas largas
     dlg.alignChildren = 'fill';
