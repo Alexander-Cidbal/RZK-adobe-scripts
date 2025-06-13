@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ExtensionManifest Version="7.0" ExtensionBundleId="com.rzk.selection2shape" ExtensionBundleVersion="1.0.0" ExtensionBundleName="RZK Selection to Shape" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <ExtensionList>
+        <Extension Id="com.rzk.selection2shape.panel" Version="1.0.0" />
+    </ExtensionList>
+    <ExecutionEnvironment>
+        <HostList>
+            <!-- Photoshop -->
+            <Host Name="PHSP" Version="[16.0,99.9]" /> <!-- Photoshop CC 2015 (v16) en adelante -->
+            <Host Name="PHXS" Version="[16.0,99.9]" /> <!-- Photoshop CC 2015 (v16) en adelante -->
+        </HostList>
+        <LocaleList>
+            <Locale Code="All" />
+        </LocaleList>
+        <RequiredRuntimeList>
+            <RequiredRuntime Name="CSXS" Version="7.0" /> <!-- Ajusta según la versión de PS que uses como mínima -->
+        </RequiredRuntimeList>
+    </ExecutionEnvironment>
+    <DispatchInfoList>
+        <Extension Id="com.rzk.selection2shape.panel">
+            <DispatchInfo>
+                <Resources>
+                    <MainPath>./index.html</MainPath>
+                    <ScriptPath>./js/hostscript.jsx</ScriptPath>
+                    <CEFCommandLine>
+                        <Parameter>--enable-nodejs</Parameter>
+                        <Parameter>--mixed-context</Parameter>
+                    </CEFCommandLine>
+                </Resources>
+                <Lifecycle>
+                    <AutoVisible>true</AutoVisible>
+                </Lifecycle>
+                <UI>
+                    <Type>Panel</Type>
+                    <Menu>RZK Selection to Shape</Menu>
+                    <Geometry>
+                        <Size>
+                            <Height>300</Height>
+                            <Width>250</Width>
+                        </Size>
+                    </Geometry>
+                    <Icons>
+                        <Icon Type="DarkNormal">./icons/icon_dark.png</Icon>
+                        <Icon Type="LightNormal">./icons/icon_light.png</Icon>
+                    </Icons>
+                </UI>
+            </DispatchInfo>
+        </Extension>
+    </DispatchInfoList>
+</ExtensionManifest>
