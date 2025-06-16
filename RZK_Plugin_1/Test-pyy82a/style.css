@@ -1,0 +1,17 @@
+#button-grid-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2 columnas */
+  grid-template-rows: repeat(4, auto);    /* 4 filas */
+  gap: 10px; /* Espacio entre botones */
+  padding: 10px 0; /* Relleno vertical alrededor de la cuadrícula */
+  margin-top: 15px; /* Margen superior para separar de elementos previos */
+  margin-bottom: 15px; /* Margen inferior para separar de elementos posteriores */
+}
+
+#button-grid-container sp-button {
+  border: 1px solid black; /* Contorno negro */
+  background-color: dimgray; /* Relleno gris oscuro */
+  color: white; /* Color del texto para contraste */
+  width: 100%; /* Asegura que el botón ocupe el ancho de la celda */
+  box-sizing: border-box; /* Incluye padding y borde en el tamaño total del elemento */
+}
